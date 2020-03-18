@@ -1,0 +1,4 @@
+
+*.xml
+.idea/image_feature_extractor.iml
+*.pyc
