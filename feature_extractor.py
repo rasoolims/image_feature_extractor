@@ -40,13 +40,14 @@ if __name__ == "__main__":
     if not os.path.exists(options.output_path):
         os.makedirs(options.output_path)
 
-    outputs = {}
     done_work = 0
     for i, batch in enumerate(loader):
         with torch.no_grad():
             images = batch["images"].to(device)
             paths = batch["paths"]
-            output = model(images).numpy()
+            grid, final = model(images)
+            grid = grid.numpy()
+            final = final.numpy()
             for p, path in enumerate(paths):
                 dir_name = os.path.dirname(path)
                 f_name = os.path.basename(path)
@@ -55,8 +56,7 @@ if __name__ == "__main__":
                 if not os.path.exists(out_dir_name):
                     os.makedirs(out_dir_name)
 
-                np.savez_compressed(os.path.join(out_dir_name, f_name), output[p])
+                np.savez_compressed(os.path.join(out_dir_name, f_name), grid=grid[p], final=final[p])
 
-                outputs[path] = output[p]
             done_work += len(paths)
             print("done", done_work, "out of", data_size)

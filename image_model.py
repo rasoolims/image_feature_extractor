@@ -1,3 +1,4 @@
+import torch
 from torchvision import models
 
 
@@ -13,10 +14,15 @@ class ModifiedResnet(models.ResNet):
         x = self.layer2(x)
         x = self.layer3(x)
         grid_hidden = self.layer4(x)
+
+        o = self.avgpool(grid_hidden)
+        o = torch.flatten(o, 1)
+        o = self.fc(o)
+
         grid_hidden = grid_hidden.view(grid_hidden.size(0), grid_hidden.size(1), -1)
         grid_hidden = grid_hidden.permute((0, 2, 1))
 
-        return grid_hidden
+        return grid_hidden, o
 
 
 def init_net():
