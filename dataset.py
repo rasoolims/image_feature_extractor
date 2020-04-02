@@ -39,9 +39,12 @@ class ImageTextDataset(Dataset):
 
     def __getitem__(self, item: int):
         path = os.path.join(self.root_path, self.image_paths[item])
-
-        # Make sure not to deal with rgba or grayscale images.
-        image = Image.open(path).convert("RGB")
-        if self.transform is not None:
-            image = self.transform(image)
-        return {"images": image, "paths": self.image_paths[item]}
+        try:
+            # Make sure not to deal with rgba or grayscale images.
+            image = Image.open(path).convert("RGB")
+            if self.transform is not None:
+                image = self.transform(image)
+            return {"images": image, "paths": self.image_paths[item]}
+        except:
+            print("error in reading", path)
+            return None
