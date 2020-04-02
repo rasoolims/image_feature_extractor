@@ -2,9 +2,11 @@ import logging
 import os
 
 from PIL import Image
+from PIL import ImageFile
 from torch.utils.data import Dataset
 
 logging.getLogger("transformers.tokenization_utils").setLevel(logging.ERROR)
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 class ImageTextDataset(Dataset):
@@ -30,7 +32,7 @@ class ImageTextDataset(Dataset):
                 if extension in IMG_EXTENSIONS:
                     self.image_paths.append(f)
 
-        print("Loaded image paths", len(self.image_paths))
+        print("Loaded image paths", self.root_path, len(self.image_paths))
 
     def __len__(self):
         return len(self.image_paths)
