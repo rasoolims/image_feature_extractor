@@ -7,7 +7,7 @@ from torch.utils.data import Dataset
 
 logging.getLogger("transformers.tokenization_utils").setLevel(logging.ERROR)
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-
+Image.MAX_IMAGE_PIXELS = None
 
 class ImageTextDataset(Dataset):
     def __init__(self, data_folder: str, transform):
