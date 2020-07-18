@@ -15,14 +15,10 @@ class ModifiedResnet(models.ResNet):
         x = self.layer3(x)
         grid_hidden = self.layer4(x)
 
-        o = self.avgpool(grid_hidden)
-        o = torch.flatten(o, 1)
-        o = self.fc(o)
-
         grid_hidden = grid_hidden.view(grid_hidden.size(0), grid_hidden.size(1), -1)
         grid_hidden = grid_hidden.permute((0, 2, 1))
 
-        return grid_hidden, o
+        return grid_hidden
 
 
 def init_net():
