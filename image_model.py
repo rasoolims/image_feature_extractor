@@ -22,7 +22,7 @@ class ModifiedResnet(models.ResNet):
 
 
 def init_net():
-    model = models.resnet50(pretrained=True)
+    model = models.resnext101_32x8d(pretrained=True)
     model.__class__ = ModifiedResnet
     model.eval()
     return model
